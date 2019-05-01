@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 __all__ = ('CSS', 'JS')
 
 
-class EmbeddedMedia(object):
+class EmbeddedMedia:
     """
     Base class for adding embedded CSS and JS to a Media class.
     """
@@ -19,6 +19,9 @@ class EmbeddedMedia(object):
             type(self) is type(other) and
             self.content == other.content
         )
+    
+    def __hash__(self):
+        return hash((self.content, len(self.content)))
 
     def build_attrs(self):
         attrs = [(k, conditional_escape(v)) for k, v in self.attrs.items()]
